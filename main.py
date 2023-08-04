@@ -5,11 +5,15 @@ bot = Bot()
 db = MySQLDatabase()
 db.connect_db()
 
-processed_jobs = bot._get_all_jobs("Software Engineer")
+search_titles = ["Software Engineer I",
+                 "Junior Software Engineer", "Software Engineer", "Software Engineer Intern"]
 
-for job_data in processed_jobs:
+for title in search_titles:
+    processed_jobs = bot._get_all_jobs(title)
 
-    if not db.check_job_exists_in_database(job_data['identifier']):
-        db.insert_job(job_data)
+    for job_data in processed_jobs:
+
+        if not db.check_job_exists_in_database(job_data['identifier']):
+            db.insert_job(job_data)
 
 db.exit_db()
